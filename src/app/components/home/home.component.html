@@ -5,11 +5,11 @@
       <mat-card-subtitle>{{category.description}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <p>go to work outs</p>
       <input type = "text" placeholder="enter workout name" [(ngModel)]="newWorkOut" *ngIf="enableAddWorkOutInput"/>
     </mat-card-content>
     <mat-card-actions>
       <button mat-button  color="primary" (click)="addWorkOut(category)">add work out </button>
+      <button mat-button  color="primary" (click)="goToRecordSets(category)"> record sets </button>
     </mat-card-actions>
   </mat-card>
 </div>

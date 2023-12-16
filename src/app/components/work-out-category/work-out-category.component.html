@@ -1,4 +1,21 @@
 
-<mat-selection-list #shoes [multiple]="false">
-  <mat-list-option *ngFor="let workOut of workOutList">{{workOut.workOutName}}</mat-list-option>
+<div *ngIf="this.workOutCategory.workOutsList.length==0" style="margin: 2% 0 0 2%;">
+  there are no workouts performed yet, <button mat-stroked-button (click)="addWorkOut()">Add</button> some workouts
+  <div *ngIf="enableWorkOutForm">
+    <div>
+      <mat-form-field>
+      <mat-label>Category Name</mat-label>
+      <input matInput [(ngModel)]="newWorkOutName">
+    </mat-form-field>
+    </div>
+    <div>
+      <button mat-raised-button (click)="saveNewWorkOut()">save</button>
+    </div>
+  </div>
+</div>
+
+<mat-selection-list #shoes [multiple]="false" style="margin: 0 0 0 2%;">
+  <mat-list-option *ngFor="let workOut of workOutCategory.workOutsList">{{workOut.workOutName}}</mat-list-option>
 </mat-selection-list>
+
+<button mat-stroked-button (click)="addWorkOut()" *ngIf="this.workOutCategory.workOutsList.length!=0">Add</button>

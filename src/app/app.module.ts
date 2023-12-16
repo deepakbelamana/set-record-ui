@@ -10,6 +10,12 @@ import { WorkOutCategoryComponent } from './components/work-out-category/work-ou
 import { FormsModule } from '@angular/forms';
 import { WorkOutCategory } from './models/work-out-category';
 import {MatListModule} from '@angular/material/list';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import { SetRecordApiService } from './services/set-record-api.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,9 +31,13 @@ import {MatListModule} from '@angular/material/list';
     MatCardModule,
     MatButtonModule,
     MatListModule,
-    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,MatGridListModule,
+    MatIconModule,
+    HttpClientModule
   ],
-  providers: [WorkOutCategory],
+  providers: [WorkOutCategory,SetRecordApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

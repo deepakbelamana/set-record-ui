@@ -1,18 +1,31 @@
 <div>
-  <mat-card class="example-card" *ngFor="let category of workOutCategoryList">
+  <mat-card class="example-card" *ngFor="let category of workOutCategoryList"
+    style="margin-top: 2%;margin-left: 2%;background-color:rgb(252, 252, 168)">
     <mat-card-header>
       <mat-card-title>{{category.categoryName}}</mat-card-title>
       <mat-card-subtitle>{{category.description}}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content>
-      <input type = "text" placeholder="enter workout name" [(ngModel)]="newWorkOut" *ngIf="enableAddWorkOutInput"/>
-    </mat-card-content>
     <mat-card-actions>
-      <button mat-button  color="primary" (click)="addWorkOut(category)">add work out </button>
-      <button mat-button  color="primary" (click)="goToRecordSets(category)"> record sets </button>
+      <button mat-button color="primary" (click)="goToRecordSets(category)"> record sets </button>
     </mat-card-actions>
   </mat-card>
+  <button mat-raised-button class="float" *ngIf=!enableNewCategoryForm (click)="addNewCatergory()">New Category</button>
 </div>
 
-
-
+<div class="float" style="margin-bottom: 3%;" *ngIf=enableNewCategoryForm>
+  <div>
+    <mat-form-field>
+      <mat-label>Category Name</mat-label>
+      <input matInput [(ngModel)]="newCategoryName">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label>Descritption</mat-label>
+      <input matInput [(ngModel)]="newCategoryDescription">
+    </mat-form-field>
+  </div>
+  <div>
+    <button mat-raised-button (click)="saveNewWorkOutCategory()">save</button>
+  </div>
+</div>

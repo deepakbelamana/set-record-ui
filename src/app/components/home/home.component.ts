@@ -5,6 +5,7 @@ import {  OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { state } from '@angular/animations';
+import { SetRecordApiService } from '../../services/set-record-api.service';
 
 @Component({
   selector: 'app-home',
@@ -17,37 +18,29 @@ export class HomeComponent {
   workOutCategoryList: WorkOutCategory[]=[];
   workOut: WorkOut = new WorkOut;
   workOutCategory : WorkOutCategory= new WorkOutCategory;
-
+  newCategoryName:string="";
+  newCategoryDescription:string="";
+  enableNewCategoryForm:boolean=false
   navigationExtras: NavigationExtras = {
     state: {
       data: {}
     }
   };
 
-  constructor(private router:Router,private route:ActivatedRoute) {
-    this.workOutCategoryList=[
-      {categoryId:"1",categoryName:"chest and Triceps",description:"push day",
-      workOutsList:[
-        {workOutName:"dumbell bench press",workOutSets:[]},
-        {workOutName:"inclined dumbell bench press",workOutSets:[]},
-        {workOutName:"Overhead tricep extension",workOutSets:[]}
-    ]}
-    ]
+  constructor(private router:Router,
+    private route:ActivatedRoute,
+    private newWorkOutCategory:WorkOutCategory,
+    private apiService : SetRecordApiService
+    ) {
+      this.apiService.getAllWorkOutCategories().subscribe((res:any)=> {
+      this.workOutCategoryList=res
+     })
   }
   ngOninit():void {
 
   }
-  addWorkOut(workOutCategory:WorkOutCategory) {
-    if(this.newWorkOut === "") {
-      this.enableAddWorkOutInput=!this.enableAddWorkOutInput
-    } else {
-      this.workOut.workOutName=this.newWorkOut;
-      workOutCategory.workOutsList.push(this.workOut);
-      alert("work out added to category")
-      console.log(workOutCategory)
-    }
 
-  }
+
 
   goToRecordSets(category:any) {
     let WorkOutCategoryrouterData=this.navigationExtras
@@ -56,5 +49,19 @@ export class HomeComponent {
     }
     console.log(this.navigationExtras)
     this.router.navigateByUrl('/workoutCategory',WorkOutCategoryrouterData)
+  }
+  addNewCatergory(){
+    this.enableNewCategoryForm=!this.enableNewCategoryForm
+  }
+  saveNewWorkOutCategory() {
+    this.newWorkOutCategory.categoryName=this.newCategoryName
+    this.newWorkOutCategory.description=this.newCategoryDescription
+    this.apiService.addNewWorkOutCategory(this.newWorkOutCategory).subscribe((res:any)=> {
+        this.newWorkOutCategory=res
+        alert(`Added ${this.newWorkOutCategory.categoryName}`);
+        window.location.reload();
+        this.enableNewCategoryForm=!this.enableNewCategoryForm
+    })
+
   }
 }

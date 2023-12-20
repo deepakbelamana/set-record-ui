@@ -1,12 +1,12 @@
-
 <div *ngIf="this.workOutCategory.workOutsList.length==0" style="margin: 2% 0 0 2%;">
-  there are no workouts performed yet, <button mat-stroked-button (click)="addWorkOut()">Add</button> some workouts
+  there are no workouts performed yet, <button mat-stroked-button color="primary" (click)="addWorkOut()">Add</button>
+  some workouts
   <div *ngIf="enableWorkOutForm">
     <div>
       <mat-form-field>
-      <mat-label>Category Name</mat-label>
-      <input matInput [(ngModel)]="newWorkOutName">
-    </mat-form-field>
+        <mat-label>Category Name</mat-label>
+        <input matInput [(ngModel)]="newWorkOutName">
+      </mat-form-field>
     </div>
     <div>
       <button mat-raised-button (click)="saveNewWorkOut()">save</button>
@@ -14,8 +14,65 @@
   </div>
 </div>
 
-<mat-selection-list #shoes [multiple]="false" style="margin: 0 0 0 2%;">
-  <mat-list-option *ngFor="let workOut of workOutCategory.workOutsList">{{workOut.workOutName}}</mat-list-option>
+<mat-selection-list #workOutsList [multiple]="false" style="margin: 0 0 0 2%;">
+  <mat-list-option (click)="onSelectedWorkOut(workOut,i)"
+    *ngFor="let workOut of workOutCategory.workOutsList;index as i">{{workOut.workOutName}}</mat-list-option>
 </mat-selection-list>
 
-<button mat-stroked-button (click)="addWorkOut()" *ngIf="this.workOutCategory.workOutsList.length!=0">Add</button>
+<!-- <mat-list>
+  <mat-list-item
+    *ngFor="let workOutSet of selectedWorkOut.workOutSets;index as i">{{workOutSet.rep}},{{workOutSet.weight}}</mat-list-item>
+</mat-list> -->
+<div style="margin: 5%;">
+  <table *ngIf="this.selectedWorkOut.workOutSets.length!=0" class="table table-striped">
+
+    <tr scope="row">
+      <th scope="col">sets</th>
+      <th scope="col">weight(kg)</th>
+      <th scope="col">reps</th>
+    </tr>
+
+    <tr *ngFor="let workOutSet of selectedWorkOut.workOutSets;index as i" scope="row">
+
+      <td scope="col">{{i+1}}</td>
+      <td scope="col" style="color: rgb(42, 149, 244);">{{workOutSet.weight}} </td>
+      <td scope="col" style="color: rgb(243, 103, 38);">{{workOutSet.rep}}</td>
+
+    </tr>
+  </table>
+</div>
+
+<div style="margin: 2%;">
+  <button mat-raised-button [hidden]="this.enableAddWorkOutSet" (click)="addWorkOutSet()"
+    [disabled]="this.selectedWorkOut.workOutName.length==0 || this.enableAddWorkOutSet"
+    *ngIf="this.workOutCategory.workOutsList.length!=0" color="primary">Add sets & reps
+  </button>
+  <div *ngIf="this.enableAddWorkOutSet">
+    <mat-form-field>
+      <mat-label>weights</mat-label>
+      <input matInput [(ngModel)]="weight">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>reps</mat-label>
+      <input matInput [(ngModel)]="reps">
+    </mat-form-field>
+    <div>
+      <button mat-raised-button color="primary" (click)="saveWorkOutSet()">save</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="this.workOutCategory.workOutsList.length!=0" style="margin: 2% 0 0 2%;">
+  <button mat-raised-button (click)="addWorkOut()" color="primary">new work out</button>
+  <div *ngIf="enableWorkOutForm">
+    <div>
+      <mat-form-field>
+        <mat-label>Category Name</mat-label>
+        <input matInput [(ngModel)]="newWorkOutName">
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="saveNewWorkOut()">save</button>
+    </div>
+  </div>
+</div>

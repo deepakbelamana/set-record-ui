@@ -19,6 +19,6 @@ export class SetRecordApiService {
   }
 
   updateWorkOutCategory(category:any) {
-    return this.http.put(this.serverURL+"category",category)
+    return this.http.post(this.serverURL+"category/update",category)
   }
 }
